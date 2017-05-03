@@ -1,6 +1,12 @@
 #lang pollen
 
-◊(define ul-items (list "item one" "item two" "item three"))
+◊(define ol-items
+  (list
+  "row one"
+  "row two"
+  "row three"))
+
 ◊h1{My List}
-◊ul-list[ul-items]
+◊; This will display the ol-items list as an ordered list
+◊ol-list[ol-items]
 
