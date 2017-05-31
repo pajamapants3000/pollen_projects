@@ -7,43 +7,73 @@
     (provide (all-defined-out))
     (define poly-targets '(html)))
 
+#| Constant Definitions |#
+(define depth 0)
+
 #| Function Definitions |#
-; Generate series of list items from list of strings, to use in ol or ul
-(define
-  (li-items items)
-  (map
-    (lambda (item)
-      (txexpr 'li '() `(,item)))
-    items))
-; Display list of strings as unordered list
-(define
-  (ul-list ul-items)
-  (txexpr 'ul '() (li-items ul-items)))
 
-; Display list of strings as ordered list
+; Create a section of text with a heading
+;   heading depth is from 1 to 6, for h1-h6 in html
+; (section depth "title" "content") - ◊section[depth "title"]{content}
 (define
-  (ol-list ol-items)
-  (txexpr 'ol '() (li-items ol-items)))
+  (sectiona d t . content)
+  (txexpr 'div '()
+      `(,(txexpr
+        (string->symbol (format "h~a" d))
+        '()
+        `(,t))
+      ,@content)))
 
-; Display unordered list with heading
-(define
-  (ul-w/heading items heading)
-  `(list
-    ,(txexpr 'h2 '() `(,heading))
-    "\n"
-    ,(ul-list items)))
+; IDEA: use macro on 'content' to convert "(section d t . content)" to
+;   "(section (+ d 1) t . content)"
+; Other idea: have separate 'section' (outermost) from 'subsection'
+;   subsections leave 'depth and convert inside, section converts them and self
+; Trying to get a closure for 'depth' (still!)
+; WIP
+(define section2a
+  (lambda (d t . content)
+    (let ([depth (+ d 1)])
+      (txexpr 'div '()
+          `(,(txexpr
+            (string->symbol (format "h~a" depth))
+            '()
+            `(,t))
+          ,@content)))))
 
-; Leverage ul-w/heading for objectives list
+; WIP
 (define
-  (list-objectives objectives)
-  (ul-w/heading objectives "Objectives"))
+  (section t . content)
+    (parameterize (depth (+ depth 1))
+      (txexpr 'div '()
+          `(,(txexpr
+            (string->symbol (format "h~a" depth))
+            '()
+            `(,t))
+          ,@content))))
 
-; WIP: Body of text with variable-level heading
+;WIP
 (define
-  (section d t . content)
-  `(,(string->symbol (format "h~a" d))
-     ,t)
-  `(,content))
+  (chapter t . content)
+  (parameterize (depth 1)
+    (txexpr 'div '()
+        `(,(txexpr
+          (string->symbol (format "h~a" depth))
+          '()
+          `(,t))
+        ,@content))))
+
+; Trying to get a closure for 'depth'
+; WIP
+(define
+  (section3 d t . content)
+  (lambda (_d _t . _content)
+    (txexpr 'div '()
+        `(,(txexpr
+          (string->symbol (format "h~a" _d))
+          '()
+          `(,_t))
+        ,@_content)))
+  d t content)
 
 #| Other Definitions |#
 
