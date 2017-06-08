@@ -4,11 +4,11 @@
 
   (struct mypref (d) #:prefab)
   
-  (define (myfunc x . etc)
+  (define (myfunc . etc)
     (string-join
      (for/list ([word (flatten etc)])
        (cond
-         [(mypref? word) (format "'The number is ~a'" (+ (mypref-d word) x))]
+         [(mypref? word) (format "'The number is ~a'" (+ (mypref-d word) 1))]
          [else word]))))
 
  (define (myfunc2 . etc)
@@ -16,16 +16,16 @@
      '#s(mypref 1)
       (for/list ([word (flatten etc)])
         (cond
-          [(mypref? word) #s(mypref (+ 1 (mypref-d word)))]
+          [(mypref? word) (mypref (+ (mypref-d word) 1))]
           [else word]))))
                       
 
 (provide myfunc2)
 (provide
  (contract-out
-  [myfunc (->* (integer?) #:rest (listof any/c) any)])))
+  [myfunc (->* () #:rest (listof any/c) any)])))
 
 
 (require 'mymod)
 
-(display (myfunc 3 "let's" (myfunc2 "test") "this"))
+(display (myfunc "let's" (myfunc2 (myfunc2 "test2") "test") "this"))
