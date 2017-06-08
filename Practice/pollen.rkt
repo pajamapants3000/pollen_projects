@@ -12,6 +12,11 @@
 
 #| Function Definitions |#
 
+(define (root . content)
+  (
+
+  
+
 ; Create a section of text with a heading
 ;   heading depth is from 1 to 6, for h1-h6 in html
 ; (section depth "title" "content") - ◊section[depth "title"]{content}

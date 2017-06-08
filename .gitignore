@@ -9,3 +9,6 @@
 compiled
 *.sw*
 
+# DrRacket files
+*.2
+*.bak
