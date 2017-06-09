@@ -10,6 +10,27 @@
     (txexpr 'div '()
             (show-inner etc)))
 
+  (define (section t . etc)
+    (mypref
+     1
+     t
+     (for/list ([word etc])
+       (cond
+         [(mypref? word) (mypref
+                          (+ (mypref-d word) 1)
+                          (mypref-t word)
+                          (update-inner (mypref-strlist word)))]
+         [else word]))))
+
+  (define (update-inner inner)
+    (for/list ([word inner])
+      (cond
+        [(mypref? word) (mypref
+                         (+ (mypref-d word) 1)
+                         (mypref-t word)
+                         (update-inner (mypref-strlist word)))]
+        [else word])))
+
   (define (show-inner inner)
     (for/list ([word inner])
       (cond
@@ -22,27 +43,6 @@
                                  (show-inner (mypref-strlist word))))]
         [else word])))
 
-  (define (section t . etc)
-    (mypref
-     1
-     t
-     (for/list ([word (flatten etc)])
-       (cond
-         [(mypref? word) (mypref
-                          (+ (mypref-d word) 1)
-                          (mypref-t word)
-                          (update-inner (mypref-strlist word)))]
-         [else word]))))
-
-  (define (update-inner inner)
-    (for/list ([word (flatten inner)])
-      (cond
-        [(mypref? word) (mypref
-                         (+ (mypref-d word) 1)
-                         (mypref-t word)
-                         (update-inner (mypref-strlist word)))]
-        [else word])))
-
   (provide section update-inner show-inner)
   (provide
    (contract-out
@@ -51,4 +51,4 @@
 
 (require 'mymod)
 
-(display (chapter (section "title1" (section "title2" "test2") "test") "this"))
+(display (chapter (section "title1" (section "title2" "test2" (section "title3" "test3") ) "test") "this"))

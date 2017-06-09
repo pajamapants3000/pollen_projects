@@ -12,51 +12,50 @@
 
 (struct depth (d t strlist) #:prefab)
   
-(define (chapter t . etc)
-  (string-join
-    (list
-      t
-      (string-join
-        (for/list ([word (flatten etc)])
-          (cond
-            [(depth? word) (makesection
-                             (+ (depth-d word) 0)
-                             (depth-t word)
-                             (string-join (eval (depth-strlist word))))]
-            [else word]))))))
+(define (chapter . etc)
+  (txexpr 'div '() (show-inner etc)))
 
 (define (section t . etc)
-  (list
-    '#s(depth
+    (depth
          1
          t
-         (for/list ([word (flatten etc)])
+         (for/list ([word etc])
            (cond
              [(depth? word) (depth
                               (+ (depth-d word) 1)
                               (depth-t word)
-                              (depth-strlist word))]
-             [else word])))))
+                              (update-inner (depth-strlist word)))]
+             [else word]))))
+
+(define
+  (show-inner inner)
+  (for/list ([word inner])
+      (cond
+        [(depth? word) (txexpr 'div '()
+                                (cons
+                                 (txexpr
+                                  (string->symbol (format "h~a" (depth-d word)))
+                                  '()
+                                  `(,(depth-t word)))
+                                 (show-inner (depth-strlist word))))]
+        [else word])))
+
+(define (update-inner inner)
+  (for/list ([word inner])
+    (cond
+      [(depth? word) (depth
+                       (+ (depth-d word) 1)
+                       (depth-t word)
+                       (update-inner (depth-strlist word)))]
+      [else word])))
 
 (provide
  (contract-out
-  [chapter (->* (string?) #:rest (listof any/c) any)])) 
+  [chapter (->* () #:rest (listof any/c) any)])) 
 (provide
  (contract-out
   [section (->* (string?) #:rest (listof any/c) any)])) 
-(provide makesection)
-
-; Create a section of text with a heading
-;   heading depth is from 1 to 6, for h1-h6 in html
-; (section depth "title" "content") - ◊section[depth "title"]{content}
-(define
-  (makesection d t . content)
-  (txexpr 'div '()
-      `(,(txexpr
-        (string->symbol (format "h~a" d))
-        '()
-        `(,t))
-      ,@content)))
+(provide update-inner show-inner)
 
 #|
 ; IDEA: use macro on 'content' to convert "(section d t . content)" to

@@ -1,11 +1,15 @@
 #lang pollen
 
-◊chapter["My Section"]{
+◊chapter{
+◊section["My Section"]{
     The body of "My Section", thank you.
     (You're welcome... bye!)
-    ◊section["Inner Section" ]{
-        Here's another section
+    ◊section["Inner Section"]{
+        Here's ◊(em "another") section
+        ◊section["Deeper Section"]{
+            Here's ◊(strong "YET") another section!
+        }
     }
 }
 
-
+}
