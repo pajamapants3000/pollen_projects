@@ -2,30 +2,67 @@
 
 (module mymod racket
 
-  (struct mypref (d) #:prefab)
+  (require txexpr)
+
+  (struct mypref (d t strlist) #:prefab )
   
-  (define (myfunc . etc)
+  (define (chapter . etc)
+     (show-inner etc))
+
+  (define (show-inner inner)
     (string-join
-     (for/list ([word (flatten etc)])
+     (for/list ([word (flatten inner)])
        (cond
-         [(mypref? word) (format "'The number is ~a'" (+ (mypref-d word) 0))]
+         [(mypref? word) (format "~a\n'The number is ~a'\n~a"
+                                 (mypref-t word)
+                                 (+ (mypref-d word) 0)
+                                 (show-inner (mypref-strlist word)))]
          [else word]))))
 
- (define (myfunc2 . etc)
-    (list
-     '#s(mypref 1)
-      (for/list ([word (flatten etc)])
-        (cond
-          [(mypref? word) (mypref (+ (mypref-d word) 1))]
-          [else word]))))
-                      
+ (define (section t . etc)
+   (mypref
+       1
+       t
+       (for/list ([word (flatten etc)])
+         (cond
+           [(mypref? word) (mypref
+                            (+ (mypref-d word) 1)
+                            (mypref-t word)
+                            (update-inner (mypref-strlist word)))]
+           [else word]))))
+#|
+ (define (section t . etc)
+   (mypref
+       1
+       t
+       words
+       (UpdateInner inner)
+|#
+  (define (update-inner inner)
+    (for/list ([word (flatten inner)])
+      (cond
+        [(mypref? word) (mypref
+                         (+ (mypref-d word) 1)
+                         (mypref-t word)
+                         (update-inner (mypref-strlist word)))]
+        [else word])))
 
-(provide myfunc2)
+
+(define
+  (make-section d t . content)
+  (txexpr 'div '()
+      `(,(txexpr
+        (string->symbol (format "h~a" d))
+        '()
+        `(,t))
+      ,@content)))    
+    
+(provide section make-section update-inner show-inner)
 (provide
  (contract-out
-  [myfunc (->* () #:rest (listof any/c) any)])))
+  [chapter (->* () #:rest (listof any/c) any)])))
 
 
 (require 'mymod)
 
-(myfunc (myfunc2 (myfunc2 "test2") "test") "this")
+(display (chapter (section "title1" (section "title2" "test2") "test") "this"))
