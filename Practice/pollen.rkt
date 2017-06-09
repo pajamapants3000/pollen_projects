@@ -1,6 +1,5 @@
-#lang racket/base
+#lang racket
 (require pollen/setup txexpr)
-(provide (all-defined-out))
 
 #| Module Definitions |#
 (module setup racket/base
@@ -8,20 +7,50 @@
     (define poly-targets '(html)))
 
 #| Constant Definitions |#
-(define depth 0)
 
 #| Function Definitions |#
 
-(define (root . content)
-  (
-
+(struct depth (d t strlist) #:prefab)
   
+(define (chapter t . etc)
+  (string-join
+    (list
+      t
+      (string-join
+        (for/list ([word (flatten etc)])
+          (cond
+            [(depth? word) (makesection
+                             (+ (depth-d word) 0)
+                             (depth-t word)
+                             (string-join (eval (depth-strlist word))))]
+            [else word]))))))
+
+(define (section t . etc)
+  (list
+    '#s(depth
+         1
+         t
+         (for/list ([word (flatten etc)])
+           (cond
+             [(depth? word) (depth
+                              (+ (depth-d word) 1)
+                              (depth-t word)
+                              (depth-strlist word))]
+             [else word])))))
+
+(provide
+ (contract-out
+  [chapter (->* (string?) #:rest (listof any/c) any)])) 
+(provide
+ (contract-out
+  [section (->* (string?) #:rest (listof any/c) any)])) 
+(provide makesection)
 
 ; Create a section of text with a heading
 ;   heading depth is from 1 to 6, for h1-h6 in html
 ; (section depth "title" "content") - ◊section[depth "title"]{content}
 (define
-  (sectiona d t . content)
+  (makesection d t . content)
   (txexpr 'div '()
       `(,(txexpr
         (string->symbol (format "h~a" d))
@@ -29,6 +58,7 @@
         `(,t))
       ,@content)))
 
+#|
 ; IDEA: use macro on 'content' to convert "(section d t . content)" to
 ;   "(section (+ d 1) t . content)"
 ; Other idea: have separate 'section' (outermost) from 'subsection'
@@ -45,20 +75,9 @@
             `(,t))
           ,@content)))))
 
-; WIP
-(define
-  (section t . content)
-    (parameterize (depth (+ depth 1))
-      (txexpr 'div '()
-          `(,(txexpr
-            (string->symbol (format "h~a" depth))
-            '()
-            `(,t))
-          ,@content))))
-
 ;WIP
 (define
-  (chapter t . content)
+  (chapterx t . content)
   (parameterize (depth 1)
     (txexpr 'div '()
         `(,(txexpr
@@ -79,6 +98,6 @@
           `(,_t))
         ,@_content)))
   d t content)
-
+|#
 #| Other Definitions |#
 

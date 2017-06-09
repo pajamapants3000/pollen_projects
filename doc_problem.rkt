@@ -8,7 +8,7 @@
     (string-join
      (for/list ([word (flatten etc)])
        (cond
-         [(mypref? word) (format "'The number is ~a'" (+ (mypref-d word) 1))]
+         [(mypref? word) (format "'The number is ~a'" (+ (mypref-d word) 0))]
          [else word]))))
 
  (define (myfunc2 . etc)
@@ -28,4 +28,4 @@
 
 (require 'mymod)
 
-(display (myfunc "let's" (myfunc2 (myfunc2 "test2") "test") "this"))
+(myfunc (myfunc2 (myfunc2 "test2") "test") "this")
