@@ -5,16 +5,19 @@
 #| Module Definitions |#
 (module setup racket/base
     (provide (all-defined-out))
-    (define poly-targets '(html)))
+    (define poly-targets '(html txt ltx pdf)))
 
 #| Constant Definitions |#
 
 #| Function Definitions |#
 
 (struct depth (d t strlist) #:prefab)
-  
+
 (define (chapter . etc)
-  (txexpr 'div '() (show-inner etc)))
+  (case (current-poly-target)
+    [(ltx pdf) (txexpr 'div '() (show-inner etc))]
+    [(txt) (txexpr 'div '() (show-inner etc))]
+    [else (txexpr 'div '() (show-inner etc))]))
 
 (define (section t . etc)
     (depth
@@ -30,16 +33,37 @@
 
 (define
   (show-inner inner)
-  (for/list ([word inner])
-      (cond
-        [(depth? word) (txexpr 'div '()
-                                (cons
-                                 (txexpr
-                                  (string->symbol (format "h~a" (depth-d word)))
-                                  '()
-                                  `(,(depth-t word)))
-                                 (show-inner (depth-strlist word))))]
-        [else word])))
+  (case (current-poly-target)
+    [(ltx pdf) (for/list ([word inner])
+        (cond
+          [(depth? word) (txexpr 'div '()
+                                  (cons
+                                   (txexpr
+                                    (string->symbol (format "h~a" (depth-d word)))
+                                    '()
+                                    `(,(depth-t word)))
+                                   (show-inner (depth-strlist word))))]
+          [else word]))]
+    [(txt) (for/list ([word inner])
+        (cond
+          [(depth? word) (txexpr 'div '()
+                                  (cons
+                                   (txexpr
+                                    (string->symbol (format "h~a" (depth-d word)))
+                                    '()
+                                    `(,(depth-t word)))
+                                   (show-inner (depth-strlist word))))]
+          [else word]))]
+    [else (for/list ([word inner])
+        (cond
+          [(depth? word) (txexpr 'div '()
+                                  (cons
+                                   (txexpr
+                                    (string->symbol (format "h~a" (depth-d word)))
+                                    '()
+                                    `(,(depth-t word)))
+                                   (show-inner (depth-strlist word))))]
+          [else word]))]))
 
 (define (update-inner inner)
   (for/list ([word inner])
@@ -52,10 +76,10 @@
 
 (provide
  (contract-out
-  [chapter (->* () #:rest (listof any/c) any)])) 
+  [chapter (->* () #:rest (listof any/c) any)]))
 (provide
  (contract-out
-  [section (->* (string?) #:rest (listof any/c) any)])) 
+  [section (->* (string?) #:rest (listof any/c) any)]))
 (provide update-inner show-inner)
 
 #|

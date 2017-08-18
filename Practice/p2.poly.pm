@@ -5,6 +5,11 @@
         The body of "My Section", thank you.
         (You're welcome... bye!)
 
+        ◊ul{
+            ◊li{Hey one}
+            ◊li{Hey two}
+            ◊li{Hey three}
+            }
         ◊section["Inner Section"]{
             Here's ◊em{another} section
 
