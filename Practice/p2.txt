@@ -1,0 +1,14 @@
+(root (div (div (heading1 My Section) The body of "My Section", thank you. 
+ (You're welcome... bye!) 
+
+ (ul (li Hey one) 
+ (li Hey two) 
+ (li Hey three)) 
+ (div (heading2 Inner Section) Here's  (em another)  section 
+
+ (div (heading3 Deeper Section) Here's  (strong YET)  another section! 
+)) 
+
+ You can even still write out here, though I don't know why you'd wanna.) 
+) 
+)

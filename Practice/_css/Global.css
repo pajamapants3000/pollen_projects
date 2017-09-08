@@ -1,0 +1,254 @@
+﻿.frmSec
+{
+	font-family: Arial;
+	background-color: #ACC0E9;
+}
+.DialogTitle
+{
+	background-color: #63769B;
+}
+.DialogMain
+{
+	background-color: #ACC0E9;
+    /*overflow-y: auto !important;*/	
+}
+.DialogButtonBar
+{
+	background-color: #EEF0F6;	
+}
+.DialogWorkArea
+{
+	background-color: #EEF0F6;
+	border: solid, 1px, #6489D4;	
+}
+.DataLabel
+{
+	font-weight: bold;
+	font-size: 8pt;
+	font-family: Arial;
+	color: #000000;
+}
+.DataError
+{   
+    font-weight: bold;
+    font-size: 8pt;
+    font-family: Arial;
+    color: #ff0000;
+}
+.DataText
+{
+	font-weight: normal;
+	font-size: 8pt;
+	color: #000000;
+	font-family: Arial;
+}
+
+.LinkButton
+{
+	font-weight: bold;
+	font-size: 8pt;
+	color: #043fc6;
+	font-family: Arial;
+}
+
+.HighLink
+{
+    background-color: rgb(255,255,0);
+}
+
+.Button
+{
+	font-weight: bold;
+	font-size: 8pt;
+	color: #000000;
+	font-family: Arial;
+}
+.MainWindow
+{
+	background-color: #ACC0E9;
+}
+.TabItem
+{
+	background-color: #EEF0F6;
+	font-weight: bold;
+	font-size: 8pt;
+	font-family: Arial;
+	color: #000000;
+}
+.TabItemSelected
+{
+	background-color: #FFFFFF;
+	font-weight: bold;
+	font-size: 8pt;
+	font-family: Arial;
+	color: #000000;
+}
+.TabTable
+{
+	border: 1px solid #466094;
+	background-color: #EEF0F6;
+}
+.TabTableLabelColumn
+{
+	width:100px;
+}
+.TabTableSpacerColumn
+{
+	width:50px;
+}
+.TabTableDataColumn1
+{
+	width: 50%;
+}
+/*New classes to move to for updated CSS*/
+.TabTableLabelColumnWithNoPadding
+{
+	width:100px;
+    padding: 0px;
+}
+.TabTableSpacerColumnWithNoPadding
+{
+	width:50px;
+    padding: 0px;
+}
+.TabTableDataColumnWithNoPadding
+{
+	width: 50%;
+    padding: 0px;
+}
+.TabTextBox
+{
+	border: 1px solid #7B9EBD;
+	width: 100%;
+	font-weight: normal;
+	font-size: 8pt;
+	color: #000000;
+	font-family: Arial;
+}
+.FreezePaneOff
+{
+	visibility: hidden;
+	display: none;
+	position: absolute;
+	top: -100px;
+	left: -100px;
+} 
+.FreezePaneOn
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	visibility: visible;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #666;
+	z-index: 2147483647;
+	filter:alpha(opacity=85);
+	padding-top: 20%;
+    opacity: 0.85;
+}
+
+.InnerFreezePane
+{
+    text-align: center;
+    width: 66%;
+    background-color: #4B7DB8;
+    color: White;
+    font-size: large;
+    border: dashed 2px #95B4FD;
+    padding: 9px;
+    font-family: Arial;
+}
+
+.TimeOutPaneOff
+{
+	visibility: hidden;
+	display: none;
+	position: absolute;
+	top: -100px;
+	left: -100px;
+}
+.TimeOutPaneOn
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	visibility: visible;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #666;
+	z-index: 999999;
+	filter:alpha(opacity=90);
+	padding-top: 20%;
+    opacity: 0.9;
+}
+
+.InnerTimeOutPane
+{
+	text-align: center;
+	width: 460px;
+	background-color: #4B7DB8;
+	color: White;
+	font-size: large;
+	border: dashed 2px #95B4FD;
+	padding: 9px;
+}
+
+table
+{
+    empty-cells:show;
+}
+
+.HelpLink
+{
+	font-weight: bold;
+	font-size: 6pt;
+	color: #043fc6;
+	font-family: Arial;
+	text-decoration: underline;
+}
+
+.ViewerInRow 
+{
+    height: 100%;
+}
+
+input 
+{
+    padding-left: 3px;
+}
+
+.HiddenPicker td
+{
+	padding:0 !important;
+}
+
+.HiddenTextBox
+{
+	width:1px !important;
+	border:0 !important;
+	margin:0 !important;
+	background:none transparent !important;
+	visibility:hidden !important;
+}
+
+.SearchDatePicker
+{
+    padding:0px; 
+    margin:0px;
+}
+
+.repViewer{
+    overflow-y:auto !important;
+
+}
+
+body {
+    margin: 0px;
+}
+
+form {
+    margin-bottom: 0px;
+}

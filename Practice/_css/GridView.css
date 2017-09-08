@@ -1,0 +1,83 @@
+﻿.HeaderRow
+{
+	background-color: #E0E3E8;
+	border-bottom-style: solid;
+	border-width: 1px;
+	border-color: #A0A0A4;
+	padding: 1px;
+	margin: 2px;
+	font-family: Arial;
+	font-size: 11px;
+	color: #000000;
+	font-weight: bold;
+	text-align: left;
+}
+
+.Row td
+{
+    background-color: #FFFFFF;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #CDD4E3;
+    padding: 1px 5px 1px 5px;
+    margin: 2px;
+    font-family: Arial;
+    font-size: 11px;
+    border-top-style: solid;
+}
+
+.RowOver td
+{
+	background-color: #CCCCCC;
+	border-bottom-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	padding: 1px 5px 1px 5px;
+	margin: 2px;
+	font-family: Arial;
+	font-size: 11px;
+	border-top-style: solid;
+	cursor: pointer;
+}
+
+.RowSelect td
+{
+	background-color: #CCCCCC;
+	border-bottom-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	padding: 1px 5px 1px 5px;
+	margin: 2px;
+	font-family: Arial;
+	font-size: 11px;
+	border-top-style: solid;
+	cursor: pointer;
+}
+
+.Pager td
+{
+	background-color: #E0E3E8;
+	padding: 1px;
+	margin: 2px;
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: right;
+	height: 20px;
+}
+
+.Pager table
+{
+	height:15px;
+}
+
+.Panel1 a
+{
+	font-size: 11px;
+	font-weight: bold;
+}
+.Panel1 span
+{
+	font-size: 11px;
+	font-weight: bold;
+}
